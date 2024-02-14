@@ -17,6 +17,6 @@ app.all('/', (req, res) => {
     res.send('Yoooo!')
 })
 app.get('/test',(req,res)=>{
-    res.status(200).send('hello')
+    res.status(200).send('changed test socket')
 })
 server.listen(process.env.PORT || 3000)
