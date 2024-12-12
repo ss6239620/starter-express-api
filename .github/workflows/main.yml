@@ -1,17 +1,17 @@
-on: 
- pull_request:
-  types: [closed] 
+name: Publish to Glitch
+on:
+  push:
+    tags:
+      - v**
+
 jobs:
-  repo-sync:
-    if: github.event.pull_request.merged == true
+  sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-    - name: repo-sync
-      uses: wei/git-sync@v1
-      env:
-        SOURCE_REPO: "https://github.com/ss6239620/starter-express-api.git"
-        SOURCE_BRANCH: "main"
-        DESTINATION_REPO: ${{ secrets.GLITCH_GIT_URL  }}
-        DESTINATION_BRANCH: "master"
-      with:
-        args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH
+      - uses: lonnen/sync-branch-to-glitch-action@v0.0.4
+        env:
+          GLITCH_GIT_URL: ${{ secrets.GlitchGitURL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_BRANCH: 'main'
